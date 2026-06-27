@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leirin Morgan — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0A0F1E;
+      --bg2:      #111827;
+      --card:     #161D35;
+      --border:   #1E2A4A;
+      --teal:     #00D4C8;
+      --teal-dim: #00a89e;
+      --white:    #F0F4FF;
+      --muted:    #8892B0;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(10,15,30,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: padding .3s;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: .08em;
+      color: var(--teal);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      padding: 0 2rem;
+    }
+
+    /* Grid map background */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,200,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,200,.06) 1px, transparent 1px);
+      background-size: 50px 50px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+    /* Orbiting circle accent */
+    .hero-circle {
+      position: absolute;
+      width: 520px; height: 520px;
+      border: 1px solid rgba(0,212,200,.12);
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      animation: spin 30s linear infinite;
+    }
+    .hero-circle::before {
+      content: '';
+      position: absolute;
+      width: 8px; height: 8px;
+      background: var(--teal);
+      border-radius: 50%;
+      top: -4px; left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 16px var(--teal);
+    }
+    .hero-circle-2 {
+      width: 720px; height: 720px;
+      border-color: rgba(0,212,200,.06);
+      animation-duration: 50s;
+      animation-direction: reverse;
+    }
+    @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center; max-width: 800px;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid rgba(0,212,200,.3);
+      padding: .35rem 1rem;
+      border-radius: 999px;
+      margin-bottom: 2rem;
+      animation: fadeUp .8s ease both;
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 700;
+      line-height: .95;
+      letter-spacing: -.02em;
+      animation: fadeUp .8s .15s ease both;
+    }
+    .hero-name .cursor {
+      display: inline-block;
+      width: 4px; height: .85em;
+      background: var(--teal);
+      margin-left: 6px;
+      vertical-align: baseline;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-alias {
+      display: block;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-weight: 300;
+      color: var(--teal);
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      margin-top: .4rem;
+      animation: fadeUp .8s .25s ease both;
+    }
+    .hero-sub {
+      margin-top: 1.8rem;
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.7;
+      animation: fadeUp .8s .35s ease both;
+    }
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp .8s .45s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .8rem 2rem;
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-size: .9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .25s;
+      cursor: pointer; border: none;
+    }
+    .btn-primary {
+      background: var(--teal);
+      color: var(--bg);
+    }
+    .btn-primary:hover {
+      background: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,212,200,.3);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 7rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: .75rem; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 1.2rem;
+    }
+    .section-label::after {
+      content: ''; flex: 1; max-width: 80px;
+      height: 1px; background: var(--teal); opacity: .4;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -.01em;
+      margin-bottom: 3.5rem;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+      align-items: center;
+    }
+    .about-text p {
+      color: var(--muted); line-height: 1.85; font-size: 1.02rem;
+      margin-bottom: 1.2rem;
+    }
+    .about-text p span { color: var(--white); font-weight: 500; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem 1.5rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .stat-card:hover { border-color: var(--teal); transform: translateY(-4px); }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.4rem; font-weight: 700;
+      color: var(--teal); line-height: 1;
+    }
+    .stat-desc {
+      font-size: .85rem; color: var(--muted);
+      margin-top: .5rem; line-height: 1.4;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      position: relative; overflow: hidden;
+      transition: border-color .25s, transform .25s;
+    }
+    .skill-card:hover { border-color: var(--teal); transform: translateY(-5px); }
+    .skill-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--teal), transparent);
+      opacity: 0; transition: opacity .25s;
+    }
+    .skill-card:hover::before { opacity: 1; }
+    .skill-icon {
+      font-size: 2rem; margin-bottom: 1rem;
+    }
+    .skill-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem; font-weight: 600;
+      margin-bottom: .6rem;
+    }
+    .skill-desc { font-size: .9rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--bg2); }
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--teal), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      padding: 0 0 3.5rem 2.5rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity .5s, transform .5s;
+    }
+    .timeline-item.visible { opacity: 1; transform: translateX(0); }
+    .timeline-dot {
+      position: absolute; left: -2rem;
+      width: 14px; height: 14px;
+      background: var(--bg);
+      border: 2px solid var(--teal);
+      border-radius: 50%;
+      top: 6px;
+      transform: translateX(-5px);
+      box-shadow: 0 0 10px rgba(0,212,200,.4);
+    }
+    .timeline-period {
+      font-size: .75rem; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: .5rem;
+    }
+    .timeline-role {
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 700; margin-bottom: .3rem;
+    }
+    .timeline-org {
+      font-size: .9rem; color: var(--teal-dim);
+      margin-bottom: 1.2rem; font-style: italic;
+    }
+    .timeline-points { list-style: none; }
+    .timeline-points li {
+      position: relative; padding-left: 1.4rem;
+      font-size: .95rem; color: var(--muted);
+      line-height: 1.7; margin-bottom: .5rem;
+    }
+    .timeline-points li::before {
+      content: '▹';
+      position: absolute; left: 0;
+      color: var(--teal);
+    }
+
+    /* ── EDUCATION ── */
+    #education { background: var(--bg); }
+    .edu-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .edu-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2.2rem;
+      transition: border-color .2s, transform .2s;
+      position: relative; overflow: hidden;
+    }
+    .edu-card:hover { border-color: var(--teal); transform: translateY(-4px); }
+    .edu-badge {
+      font-size: .7rem; font-weight: 600; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--bg);
+      background: var(--teal); border-radius: 4px;
+      padding: .2rem .6rem; display: inline-block;
+      margin-bottom: 1rem;
+    }
+    .edu-school {
+      font-family: var(--font-display);
+      font-size: 1.25rem; font-weight: 700;
+      margin-bottom: .3rem;
+    }
+    .edu-major { color: var(--muted); font-size: .9rem; margin-bottom: .5rem; }
+    .edu-year { color: var(--teal); font-size: .82rem; font-weight: 500; }
+
+    /* ── LANGUAGES ── */
+    #languages { background: var(--bg2); }
+    .lang-flex { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .lang-pill {
+      display: flex; align-items: center; gap: .8rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 2rem;
+      font-family: var(--font-display);
+      font-size: 1.05rem; font-weight: 600;
+      transition: border-color .2s;
+    }
+    .lang-pill:hover { border-color: var(--teal); }
+    .lang-flag { font-size: 1.8rem; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg); }
+    .contact-inner {
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .contact-card {
+      flex: 1; min-width: 220px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2rem;
+      text-decoration: none;
+      color: var(--white);
+      transition: border-color .25s, transform .25s;
+      display: flex; align-items: center; gap: 1.2rem;
+    }
+    .contact-card:hover { border-color: var(--teal); transform: translateY(-4px); }
+    .contact-icon {
+      font-size: 1.8rem;
+      width: 52px; height: 52px;
+      background: rgba(0,212,200,.08);
+      border-radius: 10px;
+      display: grid; place-items: center;
+      flex-shrink: 0;
+    }
+    .contact-label { font-size: .75rem; color: var(--muted); margin-bottom: .2rem; }
+    .contact-value { font-weight: 600; font-size: .95rem; word-break: break-all; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem;
+      text-align: center;
+      font-size: .82rem;
+      color: var(--muted);
+    }
+    footer span { color: var(--teal); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .65s, transform .65s;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .edu-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 500px) {
+      .nav-links { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <a href="#hero" class="nav-logo">LM</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-circle"></div>
+    <div class="hero-circle hero-circle-2"></div>
+
+    <div class="hero-content">
+      <div class="hero-tag">✦ Open to Opportunities</div>
+      <h1 class="hero-name">
+        <span id="typed-name"></span><span class="cursor"></span>
+        <span class="hero-alias">Rinn / Vynn</span>
+      </h1>
+      <p class="hero-sub">
+        Tourism Management Student · Digital Marketer · Tour Product Specialist<br>
+        Politeknik Negeri Medan · Indonesia
+      </p>
+      <div class="hero-cta">
+        <a href="#experience" class="btn btn-primary">View Experience ↓</a>
+        <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about">
+    <div class="container">
+      <div class="section-label">About Me</div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <h2 class="section-title">Crafting Journeys,<br>Creating Impact</h2>
+          <p>
+            I'm <span>Leirin Morgan</span>, a 19-year-old active student at
+            <span>Politeknik Negeri Medan</span> majoring in D3 Perjalanan Wisata
+            (Tourism Management). I combine a background in culinary arts with a
+            growing expertise in digital marketing and tour operations.
+          </p>
+          <p>
+            From baking pastries to designing tour packages and social media campaigns,
+            I bring creativity and discipline to everything I do. I've served as
+            <span>class leader for 5 semesters</span> and love connecting people with
+            meaningful experiences.
+          </p>
+          <p>
+            When I'm not in class or at an internship, you'll find me creating content
+            or streaming on TikTok.
+          </p>
+        </div>
+        <div class="about-stats reveal" style="transition-delay:.15s">
+          <div class="stat-card">
+            <div class="stat-num">6</div>
+            <div class="stat-desc">Months at Antavaya Tour — domestic & international products</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">5</div>
+            <div class="stat-desc">Semesters as class leader</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">3+</div>
+            <div class="stat-desc">Core skill domains: tours, marketing & leadership</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">2</div>
+            <div class="stat-desc">Internship experiences across hospitality & travel</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SKILLS ── -->
+  <section id="skills">
+    <div class="container">
+      <div class="section-label reveal">What I Do</div>
+      <h2 class="section-title reveal">Skills &amp; Expertise</h2>
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <div class="skill-icon">🗺️</div>
+          <div class="skill-name">Tour Product Development</div>
+          <div class="skill-desc">Creating and packaging domestic & international tour products with competitive pricing and itinerary design.</div>
+        </div>
+        <div class="skill-card reveal" style="transition-delay:.1s">
+          <div class="skill-icon">📱</div>
+          <div class="skill-name">Digital Marketing</div>
+          <div class="skill-desc">Designing promotional flyers and running social media campaigns on platforms like Instagram to boost engagement.</div>
+        </div>
+        <div class="skill-card reveal" style="transition-delay:.2s">
+          <div class="skill-icon">🎯</div>
+          <div class="skill-name">Leadership</div>
+          <div class="skill-desc">Proven leadership across 5 semesters as class representative, managing peers and coordinating academic activities.</div>
+        </div>
+        <div class="skill-card reveal" style="transition-delay:.3s">
+          <div class="skill-icon">🎂</div>
+          <div class="skill-name">Culinary Arts (Tata Boga)</div>
+          <div class="skill-desc">Trained in pastry-making and cake decoration through hands-on internship at Mawar Bakery Medan.</div>
+        </div>
+        <div class="skill-card reveal" style="transition-delay:.4s">
+          <div class="skill-icon">🎮</div>
+          <div class="skill-name">Content Creation</div>
+          <div class="skill-desc">Former TikTok game streamer — comfortable on camera and experienced in building an engaged online audience.</div>
+        </div>
+        <div class="skill-card reveal" style="transition-delay:.5s">
+          <div class="skill-icon">🌐</div>
+          <div class="skill-name">Bilingual Communication</div>
+          <div class="skill-desc">Fluent in Indonesian and English, enabling professional communication with both local and international clients.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ── -->
+  <section id="experience">
+    <div class="container">
+      <div class="section-label reveal">Journey</div>
+      <h2 class="section-title reveal">Work Experience</h2>
+      <div class="timeline">
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-period">2025 – Present</div>
+          <div class="timeline-role">Tour Product & Digital Marketing Intern</div>
+          <div class="timeline-org">Antavaya Tour · Central Jakarta</div>
+          <ul class="timeline-points">
+            <li>Developed domestic and international tour packages over a 6-month internship.</li>
+            <li>Designed tour and promotional flyers for Instagram and other social media platforms.</li>
+            <li>Applied leadership experience as class representative for 5 consecutive semesters.</li>
+            <li>Created engaging content as a TikTok game streamer, growing an online community.</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item reveal" style="transition-delay:.15s">
+          <div class="timeline-dot"></div>
+          <div class="timeline-period">2021 – 2024</div>
+          <div class="timeline-role">Culinary Intern</div>
+          <div class="timeline-org">Mawar Bakery · Medan (Gatsu Branch)</div>
+          <ul class="timeline-points">
+            <li>Completed a 6-month internship in a professional bakery environment.</li>
+            <li>Specialized in making pastries and decorating cakes with attention to quality and presentation.</li>
+            <li>Developed discipline, precision, and teamwork skills in a fast-paced kitchen setting.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EDUCATION ── -->
+  <section id="education">
+    <div class="container">
+      <div class="section-label reveal">Background</div>
+      <h2 class="section-title reveal">Education</h2>
+      <div class="edu-grid">
+        <div class="edu-card reveal">
+          <span class="edu-badge">Current</span>
+          <div class="edu-school">Politeknik Negeri Medan</div>
+          <div class="edu-major">D3 Perjalanan Wisata (Tourism Management)</div>
+          <div class="edu-year">2025 – Present · Active Student</div>
+        </div>
+        <div class="edu-card reveal" style="transition-delay:.15s">
+          <span class="edu-badge" style="background:var(--muted)">Alumni</span>
+          <div class="edu-school">SMK N 1 KIS</div>
+          <div class="edu-major">Tata Boga (Culinary Arts)</div>
+          <div class="edu-year">2021 – 2024</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LANGUAGES ── -->
+  <section id="languages">
+    <div class="container">
+      <div class="section-label reveal">Communication</div>
+      <h2 class="section-title reveal">Languages</h2>
+      <div class="lang-flex">
+        <div class="lang-pill reveal">
+          <span class="lang-flag">🇮🇩</span>
+          <div>
+            <div>Indonesian</div>
+            <div style="font-size:.75rem;color:var(--muted);font-weight:400">Native</div>
+          </div>
+        </div>
+        <div class="lang-pill reveal" style="transition-delay:.1s">
+          <span class="lang-flag">🇬🇧</span>
+          <div>
+            <div>English</div>
+            <div style="font-size:.75rem;color:var(--muted);font-weight:400">Professional</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-label reveal">Let's Connect</div>
+      <h2 class="section-title reveal">Get In Touch</h2>
+      <div class="contact-inner">
+        <a href="mailto:rijirinvarald@gmail.com" class="contact-card reveal">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">rijirinvarald@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://discord.com/users/leirnmorgan" target="_blank" rel="noopener" class="contact-card reveal" style="transition-delay:.1s">
+          <div class="contact-icon">
+            <svg width="28" height="28" viewBox="0 0 127.14 96.36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z" fill="#00D4C8"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">Discord</div>
+            <div class="contact-value">leirnmorgan</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p>Designed &amp; built by <span>Leirin Morgan (Vynn)</span> · 2026</p>
+  </footer>
+
+  <script>
+    // ── Typed name effect ──
+    const name = "Leirin Morgan";
+    let i = 0;
+    const el = document.getElementById("typed-name");
+    function typeChar() {
+      if (i < name.length) {
+        el.textContent += name[i++];
+        setTimeout(typeChar, 80 + Math.random() * 60);
+      }
+    }
+    setTimeout(typeChar, 600);
+
+    // ── Scroll reveal ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add("visible"); }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal, .timeline-item").forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
